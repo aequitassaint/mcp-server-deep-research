@@ -2,7 +2,7 @@
 # Install script for the MCP server deep research package
 
 echo "Finding the latest wheel file..."
-WHEEL_FILE=$(ls -t /Users/hezhang/repos/mcp-server-application/mcp-server-deep-research/dist/*.whl | head -1)
+cd /home/mike/.local/share/Roo-Code/MCP/mcp-server-deep-research && WHEEL_FILE=$(ls -t dist/*.whl | head -1)
 
 if [ -z "$WHEEL_FILE" ]; then
   echo "No wheel file found. Please run build.sh first."
@@ -10,7 +10,9 @@ if [ -z "$WHEEL_FILE" ]; then
 fi
 
 echo "Installing wheel file: $WHEEL_FILE"
-uv pip install --force-reinstall $WHEEL_FILE
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --force-reinstall $WHEEL_FILE
 
 echo "Creating/updating Claude desktop config..."
 CONFIG_DIR="$HOME/Library/Application Support/Claude"
@@ -31,7 +33,7 @@ if [ -f "$CONFIG_FILE" ]; then
 {
   "mcpServers": {
     "mcp-server-deep-research": {
-      "command": "mcp-server-deep-research"
+      "command": "/home/mike/.local/share/Roo-Code/MCP/mcp-server-deep-research/.venv/bin/mcp-server-deep-research"
     }
   }
 }
@@ -47,7 +49,7 @@ else
 {
   "mcpServers": {
     "mcp-server-deep-research": {
-      "command": "mcp-server-deep-research"
+      "command": "/home/mike/.local/share/Roo-Code/MCP/mcp-server-deep-research/.venv/bin/mcp-server-deep-research"
     }
   }
 }
